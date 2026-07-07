@@ -155,7 +155,8 @@ flex-direction:column;
 
 gap:22px;
 
-}.contact-card{
+}
+.contact-card{
 
 display:flex;
 
@@ -269,7 +270,8 @@ font-size:26px;
 
 opacity:.8;
 
-}/* ===== ألوان كل وسيلة ===== */
+}
+/* ===== ألوان كل وسيلة ===== */
 
 .whatsapp{
 background:linear-gradient(135deg,#00b84d,#25D366);
@@ -469,114 +471,55 @@ font-size:20px;
 
 }
 
-}/* ===========================
-   ELHNDAZA
-   script.js
-=========================== */
+}
+/* زر الرجوع لأعلى */
 
-document.addEventListener("DOMContentLoaded", function () {
+.top-button{
 
-    // تأثير الظهور أثناء النزول
-    const cards = document.querySelectorAll(".contact-card");
+position:fixed;
 
-    const observer = new IntersectionObserver((entries) => {
+left:25px;
 
-        entries.forEach(entry => {
+bottom:25px;
 
-            if (entry.isIntersecting) {
+width:60px;
 
-                entry.target.style.opacity = "1";
-                entry.target.style.transform = "translateY(0)";
+height:60px;
 
-            }
+border:none;
 
-        });
+border-radius:50%;
 
-    }, {
-        threshold: 0.15
-    });
+background:linear-gradient(135deg,#D4AF37,#FFD95A);
 
-    cards.forEach((card, index) => {
+color:#111;
 
-        card.style.opacity = "0";
-        card.style.transform = "translateY(40px)";
-        card.style.transition = "all .6s ease";
-        card.style.transitionDelay = (index * 0.08) + "s";
+font-size:24px;
 
-        observer.observe(card);
+cursor:pointer;
 
-    });
+box-shadow:0 10px 30px rgba(0,0,0,.25);
 
-    // تأثير Hover
+opacity:0;
 
-    cards.forEach(card => {
+pointer-events:none;
 
-        card.addEventListener("mouseenter", function () {
+transition:.3s;
 
-            this.style.transform = "translateY(-8px) scale(1.02)";
+z-index:9999;
 
-        });
+}
 
-        card.addEventListener("mouseleave", function () {
+.top-button:hover{
 
-            this.style.transform = "translateY(0px) scale(1)";
+transform:scale(1.1);
 
-        });
+}
 
-    });
+.top-button.show{
 
-    // لمعان الزر
+opacity:1;
 
-    cards.forEach(card => {
+pointer-events:auto;
 
-        card.addEventListener("mousemove", function (e) {
-
-            const rect = this.getBoundingClientRect();
-
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            this.style.backgroundPosition = `${x}px ${y}px`;
-
-        });
-
-    });
-
-});
-
-
-// زر العودة للأعلى
-
-const topBtn = document.createElement("button");
-
-topBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
-
-topBtn.className = "top-button";
-
-document.body.appendChild(topBtn);
-
-window.addEventListener("scroll", () => {
-
-    if (window.scrollY > 350) {
-
-        topBtn.classList.add("show");
-
-    } else {
-
-        topBtn.classList.remove("show");
-
-    }
-
-});
-
-topBtn.onclick = () => {
-
-    window.scrollTo({
-
-        top: 0,
-
-        behavior: "smooth"
-
-    });
-
-};
+}
