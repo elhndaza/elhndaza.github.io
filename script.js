@@ -1,204 +1,111 @@
 /* ===========================
    ELHNDAZA
    script.js
-===========================*/
+=========================== */
 
-// تأثير ظهور العناصر
+document.addEventListener("DOMContentLoaded", function () {
 
-const observer = new IntersectionObserver((entries)=>{
+    // تأثير الظهور أثناء النزول
+    const cards = document.querySelectorAll(".contact-card");
 
-entries.forEach(entry=>{
+    const observer = new IntersectionObserver((entries) => {
 
-if(entry.isIntersecting){
+        entries.forEach(entry => {
 
-entry.target.classList.add("show");
+            if (entry.isIntersecting) {
 
-}
+                entry.target.style.opacity = "1";
+                entry.target.style.transform = "translateY(0)";
+
+            }
+
+        });
+
+    }, {
+        threshold: 0.15
+    });
+
+    cards.forEach((card, index) => {
+
+        card.style.opacity = "0";
+        card.style.transform = "translateY(40px)";
+        card.style.transition = "all .6s ease";
+        card.style.transitionDelay = (index * 0.08) + "s";
+
+        observer.observe(card);
+
+    });
+
+    // تأثير Hover
+
+    cards.forEach(card => {
+
+        card.addEventListener("mouseenter", function () {
+
+            this.style.transform = "translateY(-8px) scale(1.02)";
+
+        });
+
+        card.addEventListener("mouseleave", function () {
+
+            this.style.transform = "translateY(0px) scale(1)";
+
+        });
+
+    });
+
+    // لمعان الزر
+
+    cards.forEach(card => {
+
+        card.addEventListener("mousemove", function (e) {
+
+            const rect = this.getBoundingClientRect();
+
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            this.style.backgroundPosition = `${x}px ${y}px`;
+
+        });
+
+    });
 
 });
 
-},{
-threshold:.15
-});
 
-document.querySelectorAll(".button,.qr,footer,.card,.gallery img").forEach(el=>{
+// زر العودة للأعلى
 
-el.classList.add("hidden");
+const topBtn = document.createElement("button");
 
-observer.observe(el);
+topBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
 
-});
-
-
-
-// تكبير الزر عند الضغط
-
-document.querySelectorAll(".button").forEach(btn=>{
-
-btn.addEventListener("mousedown",()=>{
-
-btn.style.transform="scale(.97)";
-
-});
-
-btn.addEventListener("mouseup",()=>{
-
-btn.style.transform="";
-
-});
-
-btn.addEventListener("mouseleave",()=>{
-
-btn.style.transform="";
-
-});
-
-});
-
-
-
-
-// تأثير لمعان عند المرور
-
-document.querySelectorAll(".button").forEach(button=>{
-
-button.addEventListener("mousemove",(e)=>{
-
-const x=e.offsetX;
-
-const y=e.offsetY;
-
-button.style.backgroundPosition=x+"px "+y+"px";
-
-});
-
-});
-
-
-
-
-// زر واتساب عائم
-
-const whatsapp=document.createElement("a");
-
-whatsapp.href="https://wa.me/201221562726";
-
-whatsapp.target="_blank";
-
-whatsapp.innerHTML='<i class="fab fa-whatsapp"></i>';
-
-whatsapp.className="floating-whatsapp";
-
-document.body.appendChild(whatsapp);
-
-
-
-
-// العودة لأعلى الصفحة
-
-const topBtn=document.createElement("button");
-
-topBtn.innerHTML="↑";
-
-topBtn.className="topButton";
+topBtn.className = "top-button";
 
 document.body.appendChild(topBtn);
 
-window.addEventListener("scroll",()=>{
+window.addEventListener("scroll", () => {
 
-if(window.scrollY>400){
+    if (window.scrollY > 350) {
 
-topBtn.classList.add("showTop");
+        topBtn.classList.add("show");
 
-}else{
+    } else {
 
-topBtn.classList.remove("showTop");
+        topBtn.classList.remove("show");
 
-}
-
-});
-
-topBtn.onclick=()=>{
-
-window.scrollTo({
-
-top:0,
-
-behavior:"smooth"
+    }
 
 });
+
+topBtn.onclick = () => {
+
+    window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+
+    });
 
 };
-
-
-
-
-// عداد بسيط
-
-const counters=document.querySelectorAll(".counter");
-
-counters.forEach(counter=>{
-
-counter.innerText="0";
-
-const update=()=>{
-
-const target=+counter.dataset.target;
-
-const c=+counter.innerText;
-
-const inc=target/120;
-
-if(c<target){
-
-counter.innerText=Math.ceil(c+inc);
-
-setTimeout(update,15);
-
-}else{
-
-counter.innerText=target;
-
-}
-
-};
-
-update();
-
-});
-
-
-
-
-// تكبير صور الجاليري
-
-document.querySelectorAll(".gallery img").forEach(img=>{
-
-img.onclick=function(){
-
-const overlay=document.createElement("div");
-
-overlay.className="imageOverlay";
-
-overlay.innerHTML=
-
-`<img src="${this.src}">`;
-
-document.body.appendChild(overlay);
-
-overlay.onclick=function(){
-
-overlay.remove();
-
-}
-
-}
-
-});
-
-
-
-
-// رسالة ترحيب
-
-console.log("ELHNDAZA Website Loaded Successfully");
